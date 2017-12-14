@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/user');
-
-
 const config = require('../config/main');
+const fs= require('fs');
+const private_key = fs.readFileSync('private.pem');
 
 // Generate JWT
 // TO-DO Add issuer and audience
 function generateToken(user) {
-  return jwt.sign(user, config.secret, {
+  return jwt.sign(user, private_key, {
     expiresIn: 604800 // in seconds
   });
 }
@@ -22,10 +22,6 @@ function setUserInfo(request) {
     role: request.role,
   };
 }
-
-
-
-
 
 //= =======================================
 // Login Route
